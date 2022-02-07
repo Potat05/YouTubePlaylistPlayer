@@ -1,0 +1,171 @@
+
+:root {
+    --main-color: #252525;
+    --main-button: #3d3d3d;
+
+    --main-divider: #030303; 
+
+    --background-1: #1b1b1b;
+    --background-2: #252525;
+    --background-3: #222222;
+    --background-4: #3d3d3d;
+    --background-5: #383838;
+    --background-6: #575757;
+
+    --text-1: #ffffff;
+    --text-2: #dcdcdc;
+
+    --scrollbar-bg: #0d0d0d;
+    --scrollbar-thumb: #3b3b3b;
+    --scrollbar-thumb-hover: #464646;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--background-1);
+}
+
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    height: 4rem;
+    z-index: 100;
+    position: fixed;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    background-color: var(--main-color);
+}
+
+.headerButtons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.headerButtons > button {
+    padding: 0.3rem 1rem;
+    margin: 0 0.5rem;
+    background-color: var(--background-4);
+    border: none;
+    box-shadow: #1b1b1b 0 1px 7px -2px;
+    border-radius: 6px;
+    color: var(--text-2);
+    fill: var(--text-2);
+}
+
+.headerTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-2);
+}
+
+.headerTitle > i {
+    margin-right: 0.5rem;
+}
+
+
+
+
+main {
+    padding-top: 4rem;
+    color: var(--text-1);
+    fill: var(--text-1);
+    transition: padding 0.3s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+
+::-webkit-scrollbar {
+    width: 0.75rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 0.5rem;
+    border: 0.15rem solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+    border: 0.1rem solid transparent;
+    background-clip: content-box;
+}
+
+
+main > * {
+    margin: 1rem;
+}
+
+#playerStuffs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#playerProgress {
+    background: red;
+    width: 50%;
+    height: 0.1rem;
+}
+
+#playlistControl {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+#playerHolder {
+    width: 50%;
+}
+
+#playlistURL {
+    width: 25rem;
+}
+
+.divider {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--main-divider);
+}
+
+.textsStuff {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.textsStuff > h1 {
+    font-weight: bold;
+}
