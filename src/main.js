@@ -41,17 +41,6 @@ document.getElementById('refreshWindow').addEventListener('click', () => {
 
 
 
-// TODO: Instead of updating the dom all the time use keyframes to animate the progress.
-
-// Progress bar
-const playerProgress = document.getElementById('playerProgress');
-function updateProgressBar() {
-    playerProgress.style.width = `${player.getCurrentTime() / player.getDuration() * 50}%`;
-}
-
-
-
-
 let player;
 function onYouTubeIframeAPIReady() {
 
@@ -79,8 +68,11 @@ function onYouTubeIframeAPIReady() {
                     started = true;
                 }, 500);
 
-                clearInterval(updateProgressBar);
-                setInterval(updateProgressBar, 1000);
+                // TODO: Instead of updating the dom all the time use keyframes to animate the progress.
+                playerProgress = document.getElementById('playerProgress');
+                setInterval(() => {
+                    playerProgress.style.width = `${event.target.getCurrentTime() / event.target.getDuration() * 50}%`;
+                }, 1000);
 
             },
             'onStateChange': (event) => {
