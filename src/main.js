@@ -8,7 +8,9 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 let params = new URLSearchParams(location.search);
 
-document.getElementById('playlistURL').addEventListener('change', (event) => {
+const playlistItems = document.getElementById('playlistURL');
+
+playlistItems.addEventListener('change', (event) => {
     let playlist = event.target.value;
 
     if(event.target.value.includes('list=')) {
@@ -29,7 +31,7 @@ document.getElementById('playlistURL').addEventListener('change', (event) => {
 });
 
 if(params.get('playlist')) {
-    document.getElementById('playlistURL').value = params.get('playlist');
+    playlistItems.value = params.get('playlist');
 }
 
 document.getElementById('refreshWindow').addEventListener('click', () => {
@@ -41,7 +43,7 @@ document.getElementById('refreshWindow').addEventListener('click', () => {
 
 
 
-let player;
+var player;
 function onYouTubeIframeAPIReady() {
 
     player = new YT.Player('player', {
