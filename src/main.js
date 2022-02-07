@@ -1,12 +1,5 @@
 
 
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-
-
 
 let params = new URLSearchParams(location.search);
 
@@ -42,6 +35,18 @@ document.getElementById('refreshWindow').addEventListener('click', () => {
 
 
 
+
+// TODO: Instead of updating the dom all the time use keyframes to animate the progress.
+
+// Progress bar
+const playerProgress = document.getElementById('playerProgress');
+function updateProgressBar() {
+    playerProgress.style.width = `${player.getCurrentTime() / player.getDuration() * 50}%`;
+}
+
+
+
+
 let player;
 function onYouTubeIframeAPIReady() {
 
@@ -67,7 +72,10 @@ function onYouTubeIframeAPIReady() {
                     event.target.playVideoAt(0);
 
                     started = true;
-                }, 1000)
+                }, 500);
+
+                clearInterval(updateProgressBar);
+                setInterval(updateProgressBar, 1000);
 
             },
             'onStateChange': (event) => {
@@ -103,21 +111,3 @@ function onYouTubeIframeAPIReady() {
         }
     });
 }
-
-
-
-// TODO: Instead of updating the dom all the time use keyframes to animate the progress.
-
-// Progress bar
-const playerProgress = document.getElementById('playerProgress');
-function loop() {
-    setTimeout(() => loop(), 1000);
-
-    updateProgressBar();
-}
-
-function updateProgressBar() {
-    playerProgress.style.width = `${player.getCurrentTime() / player.getDuration() * 50}%`;
-}
-
-loop();
