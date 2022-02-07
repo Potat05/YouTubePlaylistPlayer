@@ -95,10 +95,15 @@ function onYouTubeIframeAPIReady() {
                         }
                         http.send();
 
-
                         event.target.playVideo();
 
                         break; }
+                    case YT.PlayerState.PLAYING:
+                        document.title = `playing ${event.target.getVideoData().title}`;
+                        break;
+                    case YT.PlayerState.PAUSED:
+                        document.title = `YouTube Playlist Player`;
+                        break;
                 }
                 
             },
