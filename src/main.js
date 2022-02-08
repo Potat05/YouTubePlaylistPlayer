@@ -1,4 +1,5 @@
 
+// Load YouTube IFrame API
 
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -6,6 +7,8 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 
+
+// Get & set playlist
 let params = new URLSearchParams(location.search);
 
 const playlistItems = document.getElementById('playlistURL');
@@ -15,8 +18,6 @@ playlistItems.addEventListener('change', (event) => {
 
     if(event.target.value.includes('list=')) {
         const search = new URLSearchParams(event.target.value);
-
-        console.log(search);
         
         if(search.has('list')) {
             playlist = search.get('list');
@@ -24,6 +25,8 @@ playlistItems.addEventListener('change', (event) => {
             playlist = event.target.value.split('list=')[1];
         }
     }
+
+    if(playlist.length < 10) return;
 
     window.history.replaceState('', '', `?playlist=${playlist}`);
     params = new URLSearchParams(location.search);
@@ -37,12 +40,40 @@ if(params.get('playlist')) {
 document.getElementById('refreshWindow').addEventListener('click', () => {
     if(params.get('playlist') == player.getPlaylistId()) return;
     if(params.get('playlist') == null) return;
+    if(params.get('playlist') == '') return;
     window.location.reload();
 });
 
 
 
 
+
+// Progress bar
+
+const playerProgress = document.getElementById('playerProgress');
+let playerProgressAnimation = null;
+function playerProgress_Set(cur=0, total=1) {
+    // Probably shouldn't be creating this animation every time but whatever it shouldn't be too bad.
+    playerProgressAnimation = playerProgress.animate([
+        { width: '0%' },
+        { width: `50%` }
+    ], {
+        duration: total * 1000,
+        easing: 'linear',
+        delay: -cur * 1000
+    });
+}
+function playerProgress_Stop() {
+    playerProgressAnimation?.pause();
+}
+
+
+
+
+
+// Youtube IFrame
+
+let playbackSpeed = 1;
 var player;
 function onYouTubeIframeAPIReady() {
 
@@ -56,7 +87,7 @@ function onYouTubeIframeAPIReady() {
             'rel': 0,
 
             listType: 'playlist',
-            list: params.get('playlist') ?? 'PLsLHaXkqJIBhwQRcKmxzoUACptMMkKdGU',
+            list: params.get('playlist') || 'PLsLHaXkqJIBhwQRcKmxzoUACptMMkKdGU',
         },
 
         events: {
@@ -70,11 +101,14 @@ function onYouTubeIframeAPIReady() {
                     started = true;
                 }, 500);
 
-                // TODO: Instead of updating the dom all the time use keyframes to animate the progress.
-                playerProgress = document.getElementById('playerProgress');
-                setInterval(() => {
-                    playerProgress.style.width = `${event.target.getCurrentTime() / event.target.getDuration() * 50}%`;
-                }, 1000);
+                playbackSpeed = event.target.getPlaybackRate();
+
+
+                // const playerProgress = document.getElementById('playerProgress');
+                // setInterval(() => {
+                //     if(!document.hasFocus()) return;
+                //     playerProgress.style.width = `${event.target.getCurrentTime() / event.target.getDuration() * 50}%`;
+                // }, 1000);
 
             },
             'onStateChange': (event) => {
@@ -99,12 +133,34 @@ function onYouTubeIframeAPIReady() {
 
                         break; }
                     case YT.PlayerState.PLAYING:
-                        document.title = `playing ${event.target.getVideoData().title}`;
+
+                        document.title = `Playing: ${event.target.getVideoData().title}`;
+
+                        playerProgress_Set(event.target.getCurrentTime() / playbackSpeed, event.target.getDuration() / playbackSpeed);
+
                         break;
                     case YT.PlayerState.PAUSED:
+
                         document.title = `YouTube Playlist Player`;
+
+                        playerProgress_Stop();
+
                         break;
+                    case YT.PlayerState.BUFFERING:
+
+                        document.title = `Buffering. . .`;
+
+                        playerProgress_Stop();
+                    
+                        break;
+
                 }
+                
+            },
+            'onPlaybackRateChange': (event) => {
+
+                playbackSpeed = event.target.getPlaybackRate();
+                playerProgress_Set(event.target.getCurrentTime() / playbackSpeed, event.target.getDuration() / playbackSpeed);
                 
             },
             'onError': (event) => {
