@@ -15,6 +15,10 @@
     --text-1: #ffffff;
     --text-2: #dcdcdc;
 
+    --input-bg: #3d3d3d;
+    --input-color: #ffffff;
+    --input-placeholder-color: #9c9c9c;
+
     --scrollbar-bg: #0d0d0d;
     --scrollbar-thumb: #3b3b3b;
     --scrollbar-thumb-hover: #464646;
@@ -138,18 +142,43 @@ main > * {
     height: 0.1rem;
 }
 
-#playlistControl {
-    display: flex;
-    justify-content: space-between;
-    width: 50%;
-}
-
 #playerHolder {
     width: 50%;
 }
 
+#playlistInput {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 #playlistURL {
-    width: 25rem;
+    width: 40%;
+    padding: 0.3rem 1rem;
+    background: var(--input-bg);
+    color: var(--input-color);
+    border: none;
+    box-shadow: #1b1b1b 0 1px 7px -2px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+#playlistURL::placeholder {
+    color: var(--input-placeholder-color);
+    text-align: center;
+}
+
+#refreshWindow {
+    margin-left: 1%;
+    width: 10%;
+    padding: 0.3rem 1rem;
+    background-color: var(--background-4);
+    border: none;
+    box-shadow: #1b1b1b 0 1px 7px -2px;
+    border-radius: 6px;
+    color: var(--text-2);
+    fill: var(--text-2);
 }
 
 .divider {
