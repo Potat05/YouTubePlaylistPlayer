@@ -4,4 +4,4 @@
 
 
 * TODO
-    * Nothing!
+    * Make the page scale better with higher resolutions.
